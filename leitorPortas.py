@@ -21,7 +21,7 @@ p5=0
 p6=0
 p7=0
 p8=0
-
+#1
 def registrando(porta )
 	now = datetime.now()
 	porta = data_e_hora_em_texto = data_e_hora_atuais.strftime(‘%d/%m/%Y %H:%M:%S’)
