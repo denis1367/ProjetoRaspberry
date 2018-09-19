@@ -1,0 +1,10 @@
+GPIO26	GPIO21
+GPIO19	GPIO20
+GPIO13	
+GPIO6	GPIO16
+	GPIO12
+
+
+
+firebase database
+serviço ailot que reconhece a voz 
