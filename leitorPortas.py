@@ -16,3 +16,4 @@ def inputPorta(portaGpio):
 	while true:
 		if(gpio.input(portaGpio) == 1)
 		print ("Luz acesssa")
+		teste
