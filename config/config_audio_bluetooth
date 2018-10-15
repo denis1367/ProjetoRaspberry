@@ -1,0 +1,3 @@
+#!/bin/bash
+pacmd set-default-sink bluez_sink.14_7C_36_83_7C_96.a2dp_sink
+pacmd set-default-source bluez_sink.14_7C_36_83_7C_96.a2dp_sink.monitor
