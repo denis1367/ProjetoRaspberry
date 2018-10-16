@@ -1,5 +1,6 @@
 #@/usr/bin
-class Lampada():
+class Lampada(object):
+   
     def __init__(self,nome,pgpio,status,numrele,lumi):
         self.nome = nome
         self.pgpio = pgpio
