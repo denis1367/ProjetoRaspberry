@@ -1,6 +1,7 @@
 #!/usr/bin
 # -*- coding: utf-8 -*-
 #SCRIPT BY DENIS NASCIMENTO CONCEIÇÃO
+#
 import RPi.GPIO as GPIO
 import time
 from decimal import Decimal
