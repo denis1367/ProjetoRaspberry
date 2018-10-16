@@ -6,13 +6,13 @@ x=1
 data=2
 
 gpio.setmode(gpio.BCM)
-gpio.setup(16,gpio.OUT)
+gpio.setup(26,gpio.OUT)
 
 #cont=0
 #while cont < 1:
 #for y in range(8):
 
-gpio.output(16,1)
+gpio.output(26,1)
 #time.sleep(0.1)
 #gpio.output(5,1)
 #time.sleep(0.1)

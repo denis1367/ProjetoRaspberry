@@ -11,33 +11,33 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 SPI_PORT   = 0
 SPI_DEVICE = 0
-
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-
-
 #DEFININDO PORTA GPIO NO MODO BROADCOM SOC CHANNEL NUMBER
 PIN=21
+LAMP2=26
 PORCENTAGEM=0
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 #DEFININDO CONFIGURAÇÕES DOS PINOS
 # PINO 21 ZERO CROSSING, 20 ATIVA TRIAC , 15 ATIVA RELE
-
+GPIO.setup(LAMP2,GPIO.OUT)
+GPIO.output(LAMP2,0)
 GPIO.setup(PIN,GPIO.IN, pull_up_down= GPIO.PUD_DOWN)
 GPIO.setup(20,GPIO.OUT)
 GPIO.output(20,0)
 GPIO.setup(16,GPIO.OUT)
 GPIO.add_event_detect(PIN,GPIO.RISING)
-
 # METODO MAIN
-lamp = Lampada("sala",20,0,16,0.0)
+lamp1 = Lampada("sala",20,0,16,0.0)
+lamp2 = Lampada("cozi",26,0,12,0.0)
 def main():
     
     #PORCENTAGEM = float(raw_input("DIGITE UM VALOR REAL: "))
-    t = threading.Thread(target=ativaL1)
-    u = threading.Thread(target=mantemStatus)
-    u.start()
-    
+    t  = threading.Thread(target=ativaL1(lamp1))
+    t2 = threading.Thread(target=ativaL1(lamp2))
+#    u = threading.Thread(target=mantemStatus)
+#$    u.start()
+    t2.start()
     t.start()
     while True:
         try:
@@ -61,7 +61,8 @@ def main():
             GPIO.cleanup()
             exit()
 #ATIVA DIMMER TRIAC  LAMPADA
-def ativaL1():
+def ativaL1( object):
+    lampadas = object
     try:
         
         while True :
@@ -69,11 +70,11 @@ def ativaL1():
             #t1= Decimal( 8200 * (100 - 50) /100)
             if GPIO.input(PIN) == 1:
             #    print (PORCENTAGEM)
-                time.sleep(float(lamp.getLumi()))
+                time.sleep(float(lampadas.getLumi()))
                 
-                GPIO.output(int(lamp.getPgpio()),1)
+                GPIO.output(int(lampadas.getPgpio()),1)
                 time.sleep(0.000006)
-                GPIO.output(int(lamp.getPgpio()),0)
+                GPIO.output(int(lampadas.getPgpio()),0)
     
     except (KeyboardInterrupt):
            print("saindo")
