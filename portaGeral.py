@@ -10,7 +10,6 @@ from decimal import Decimal
 from PortaGpio import PortaGpio
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-from classPorta import classPorta
 SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -33,18 +32,28 @@ GPIO.output(20,0)
 GPIO.setup(16,GPIO.OUT)
 GPIO.add_event_detect(PIN,GPIO.RISING)
 # METODO MAIN
-lamp2 = Lampada("sala",26,0,16,0.0)
-lamp = Lampada("cozi",20,0,12,0.0)
+lamp = Lampada("sala",20,0,16,0.0)
+lamp2 = Lampada("cozi",26,0,12,0.0)
 def main():
-   
-    t1 = Thread(target=ativaTriac)
-    t1.start()
+
+
+    #PORCENTAGEM = float(raw_input("DIGITE UM VALOR REAL: "))
+    #t  = Thread(target=ativaL1,args=("sala",20,0,16,0.0))
+    #t2 = Thread(target=ativaL1,args=("cozi",26,0,12,0.0))
+
+        
+    t = Thread(target=ativaTriac)
+    t.start()
+#    t2.start()
+    
     while True:
+        
+
         try:
 
             porc = 100 -(float( raw_input("DIGITE UM PORCENTAGEM :")))
             tempo=(((78.6/100)* float(porc))/10000 )
-            lamp2.setLumi(tempo)
+            lamp.setLumi(tempo)
             print("")
     
             time.sleep(1)
@@ -56,7 +65,7 @@ def main():
 def ativaTriac():
 #def ativaL1( nome,pgpio,status,numrele,lumi):
     
-    lampadas = lamp2
+    lampadas = lamp
     
     try:
         while True :

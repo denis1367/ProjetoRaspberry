@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #SCRIPT BY DENIS NASCIMENTO CONCEIÇÃO
 #
+import multiprocessing
 import RPi.GPIO as GPIO
 import time
 from threading import Thread
@@ -10,7 +11,6 @@ from decimal import Decimal
 from PortaGpio import PortaGpio
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-from classPorta import classPorta
 SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -33,30 +33,46 @@ GPIO.output(20,0)
 GPIO.setup(16,GPIO.OUT)
 GPIO.add_event_detect(PIN,GPIO.RISING)
 # METODO MAIN
-lamp2 = Lampada("sala",26,0,16,0.0)
-lamp = Lampada("cozi",20,0,12,0.0)
+lamp2 = Lampada("sala",20,0,16,0.0)
+lamp = Lampada("cozi",26,0,12,0.0)
 def main():
-   
-    t1 = Thread(target=ativaTriac)
-    t1.start()
+      
+    t = Thread(target=ativaTriac,args=(lamp,))
+    t2 = Thread(target=ativaTriac,args=(lamp2,))
+    t.start()
+    t2.start()
+    
+    # MULTIPROCESSO
+#    p1= multiprocessing.Process(target=ativaTriac,args=(lamp2,))
+#    p2= multiprocessing.Process(target=ativaTriac,args=(lamp,))
+#    p1.start()
+#    p2.start()
+    
+    
     while True:
+
+        
+
         try:
 
             porc = 100 -(float( raw_input("DIGITE UM PORCENTAGEM :")))
             tempo=(((78.6/100)* float(porc))/10000 )
-            lamp2.setLumi(tempo)
+            lamp.setLumi(tempo)
+            
+            porc2 = 100 -(float( raw_input("DIGITE UMA PORCENTAGEM PARA LAMPADA2 :")))
+            tempo2=(((78.6/100)*float(porc))/10000)
+            lamp2.setLumi(tempo2)
             print("")
-    
-            time.sleep(1)
+            #time.sleep(1)
         except(KeyboardInterrupt):
             print("acabou")
             GPIO.cleanup()
             exit()
 #ATIVA DIMMER TRIAC  LAMPADA
-def ativaTriac():
+def ativaTriac(lampadas):
 #def ativaL1( nome,pgpio,status,numrele,lumi):
-    
-    lampadas = lamp2
+
+    #lamp = Lampada (nome, pgpio, status, numrele, lumi)
     
     try:
         while True :
